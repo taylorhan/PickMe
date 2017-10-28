@@ -97,6 +97,12 @@ namespace Doll
 
                 if (hit.transform.tag == "Ground")
                 {
+                    if (GameManagerScript.Instance.inGameVars.curResource <= 0)
+                    {
+                        Debug.Log("Not Enough Resource");
+                        return;
+                    }
+
                     Debug.Log(string.Format("Hit Obj :: {0}", hit.transform.gameObject.name));
                     Insert_Obj(SelectedDollIndex, hit.point);
                 }
@@ -117,6 +123,10 @@ namespace Doll
             }
 
             tDoll.parent = InGameManager.Instance.floor.transform;
+
+            GameManagerScript.Instance.SubResource();
+            InGameManager.Instance.SetResourceUI();
+
             return true;
         }
 

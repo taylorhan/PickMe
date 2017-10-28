@@ -75,9 +75,6 @@ namespace Doll
             buttonEffect.effect_Bear.SetActive(true);
             buttonEffect.effect_Rabbit.SetActive(false);
             buttonEffect.effect_Fox.SetActive(false);
-
-            GameManagerScript.Instance.SubResource();
-            SetResourceUI();
         }
 
         public void OnClick_SelectRabbit()
@@ -86,9 +83,6 @@ namespace Doll
             buttonEffect.effect_Bear.SetActive(false);
             buttonEffect.effect_Rabbit.SetActive(true);
             buttonEffect.effect_Fox.SetActive(false);
-
-            GameManagerScript.Instance.SubResource();
-            SetResourceUI();
         }
 
         public void OnClick_SelectFox()
@@ -97,9 +91,6 @@ namespace Doll
             buttonEffect.effect_Bear.SetActive(false);
             buttonEffect.effect_Rabbit.SetActive(false);
             buttonEffect.effect_Fox.SetActive(true);
-
-            GameManagerScript.Instance.SubResource();
-            SetResourceUI();
         }
 
         public Vector3 Set_Random_Destiny()
@@ -129,10 +120,10 @@ namespace Doll
             inGameUI.text_Timer.text = string.Format("{0}:{1}", Sec.ToString("D2"), mSec.ToString("D2"));
         }
 
-        void SetResourceUI()
+        public void SetResourceUI()
         {
-            int maxResource = GameManagerScript.Instance.gameSetting.ResourceMaxCount;
-            int curResource = GameManagerScript.Instance.inGameVars.curResource;
+            float maxResource = GameManagerScript.Instance.gameSetting.ResourceMaxCount;
+            float curResource = GameManagerScript.Instance.inGameVars.curResource;
             float perResource = curResource / maxResource;
 
             inGameUI.slider_Resource.value = perResource;
