@@ -16,7 +16,7 @@ namespace Doll
         // Update is called once per frame
         void Update()
         {
-
+            CheckState();
         }
     }
 

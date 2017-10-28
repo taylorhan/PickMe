@@ -19,7 +19,7 @@ namespace Doll
             Invincible, //무적(집게 충돌 중)
             Pickup, //집게 올라가는 중
         }
-        eDollState dollState;
+        eDollState dollState = eDollState.Idle;
 
 		Vector3 Destiny;
 		float Speed = 5f;
@@ -53,7 +53,7 @@ namespace Doll
 			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (Destiny.x, Destiny.y, Destiny.z), Time.deltaTime * Speed);
 		}
 
-        void CheckState()
+        public void CheckState()
         {
             switch (dollState)
             {
@@ -124,7 +124,7 @@ namespace Doll
         // Update is called once per frame
         void Update()
         {
-            CheckState();
+            //CheckState();
         }
     }
 }
