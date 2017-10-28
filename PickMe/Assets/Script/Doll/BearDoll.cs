@@ -17,6 +17,11 @@ namespace Doll
         void Update()
         {
             CheckState();
+			if (this.GetComponent<Doll> ().Check_Super) {
+				this.GetComponent<Doll> ().MakeSuper (true, this.gameObject);
+			} else {
+				this.GetComponent<Doll> ().MakeSuper (false, this.gameObject);
+			}
         }
 
         void OnTriggerEnter2D(Collider2D col)

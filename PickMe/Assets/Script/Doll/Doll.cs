@@ -112,6 +112,17 @@ namespace Doll
             return false;
         }
 
+		public float Limit_Time;
+		public bool Check_Super;
+
+		public void MakeSuper(bool Check, GameObject obj){
+			if (Check == true) {
+				obj.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezePosition;
+			} else {
+				obj.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None;
+			}
+		}
+
         void StartDeadAnim()
         {
 

@@ -6,6 +6,9 @@ namespace Doll
 {
     public class Object_Manager_Script : MonoBehaviour
     {
+		public GameObject[] DollsPrefabArray;
+		public int Count;
+		[HideInInspector]
         public GameObject[] Dolls_obj;
 
         public GameObject floor;
@@ -33,6 +36,7 @@ namespace Doll
 
 		public static int[] arrDollCount = new int[6];	
 
+		bool Flag;
         // Use this for initialization
         void Start()
         {
@@ -56,7 +60,28 @@ namespace Doll
             ERabbitList = new List<GameObject>();
             EFoxList = new List<GameObject>();
 
+			instantiatePrefab (Count);
+			Flag = false;
         }
+
+		public void instantiatePrefab(int count){
+			for (int i = 0; i < DollsPrefabArray.Length; i++) {
+				for (int j = 0; j < count; j++) {
+					GameObject newObj = Instantiate (DollsPrefabArray [i], Vector2.zero, Quaternion.identity);
+					newObj.GetComponent<Doll> ().Set_Information (0, i);
+					newObj.SetActive (false);
+					newObj.transform.parent = Dolls_obj [newObj.GetComponent<Doll> ().Type].transform;
+				}
+			}
+		}
+		public void instantiatePrefabFake(int count, int i){
+			for (int j = 0; j < count; j++) {
+				GameObject newObj = Instantiate (DollsPrefabArray [i], Vector2.zero, Quaternion.identity);
+				newObj.GetComponent<Doll> ().Set_Information (0, i);
+				newObj.SetActive (false);
+				newObj.transform.parent = Dolls_obj [newObj.GetComponent<Doll> ().Type].transform;
+			}
+		}
 
         // Update is called once per frame
         void Update()
@@ -75,7 +100,6 @@ namespace Doll
                     }
                 }
             }
-
         }
 
         public void SetSelectedDollIndex(int index)
@@ -94,16 +118,20 @@ namespace Doll
 
         public void Insert_Obj(int eDollIndex, Vector3 hitInfo)
         {
-            if (Dolls_obj[eDollIndex].transform.childCount <= 0)
-                return;
+			if (Dolls_obj [eDollIndex].transform.childCount <= 0) {
+				instantiatePrefabFake (Count, eDollIndex);
+			}
                 
             GameObject dollObj = Dolls_obj[eDollIndex].transform.GetChild(0).gameObject as GameObject;
             Doll dollComp = dollObj.GetComponent<Doll>();
             dollComp.Set_Information(arrDollCount[eDollIndex]++, eDollIndex);
             BearList.Add(dollObj);
             bool isAdded = AddDollToFloor(dollObj.transform);
+			dollObj.transform.position = hitInfo;
             dollObj.SetActive(isAdded);
+
         }
+			
 
         /*
         public GameObject Check_Num(List<GameObject> list, int index)
@@ -123,8 +151,15 @@ namespace Doll
 
         public void Delete_Obj(List<GameObject> list, GameObject obj)
         {
-            list.Remove(obj);
-            obj.SetActive(false);
+			list.Remove(obj);
+
+			Transform tParent = Dolls_obj [obj.GetComponent<Doll> ().Type].transform;
+			if (tParent.childCount > 10) {
+				Destroy (obj);
+			} else {
+				obj.transform.parent = tParent;
+				obj.SetActive(false);
+			}
         }
     }
 }
