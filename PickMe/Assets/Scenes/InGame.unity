@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2823,6 +2823,9 @@ MonoBehaviour:
     effect_Bear: {fileID: 1979133333}
     effect_Rabbit: {fileID: 346803161}
     effect_Fox: {fileID: 1836951449}
+    Img_Bear: {fileID: 963016132}
+    Img_Rabbit: {fileID: 1764432878}
+    Img_Fox: {fileID: 1252245153}
   resultGameUI:
     canvas_Result: {fileID: 1341444405}
     text_ResultScore: {fileID: 1000481408}

@@ -32,6 +32,10 @@ namespace Doll
             public GameObject effect_Bear;
             public GameObject effect_Rabbit;
             public GameObject effect_Fox;
+
+			public Image Img_Bear;
+			public Image Img_Rabbit;
+			public Image Img_Fox;
         }
         public ButtonEffect buttonEffect;
 
@@ -75,6 +79,10 @@ namespace Doll
             buttonEffect.effect_Bear.SetActive(true);
             buttonEffect.effect_Rabbit.SetActive(false);
             buttonEffect.effect_Fox.SetActive(false);
+
+			buttonEffect.Img_Bear.sprite = Resources.Load<Sprite> ("Button_bear_using") as Sprite;
+			buttonEffect.Img_Rabbit.sprite = Resources.Load<Sprite> ("Button_rabbit") as Sprite;
+			buttonEffect.Img_Fox.sprite = Resources.Load<Sprite> ("Button_fox") as Sprite;
         }
 
         public void OnClick_SelectRabbit()
@@ -83,6 +91,10 @@ namespace Doll
             buttonEffect.effect_Bear.SetActive(false);
             buttonEffect.effect_Rabbit.SetActive(true);
             buttonEffect.effect_Fox.SetActive(false);
+
+			buttonEffect.Img_Bear.sprite = Resources.Load<Sprite> ("Button_bear") as Sprite;
+			buttonEffect.Img_Rabbit.sprite = Resources.Load<Sprite> ("Button_rabbit_using") as Sprite;
+			buttonEffect.Img_Fox.sprite = Resources.Load<Sprite> ("Button_fox") as Sprite;
         }
 
         public void OnClick_SelectFox()
@@ -91,6 +103,10 @@ namespace Doll
             buttonEffect.effect_Bear.SetActive(false);
             buttonEffect.effect_Rabbit.SetActive(false);
             buttonEffect.effect_Fox.SetActive(true);
+
+			buttonEffect.Img_Bear.sprite = Resources.Load<Sprite> ("Button_bear") as Sprite;
+			buttonEffect.Img_Rabbit.sprite = Resources.Load<Sprite> ("Button_rabbit") as Sprite;
+			buttonEffect.Img_Fox.sprite = Resources.Load<Sprite> ("Button_fox_using") as Sprite;
         }
 
         public Vector3 Set_Random_Destiny()

@@ -30,7 +30,7 @@ namespace Doll
             public float remainTime;
             public float elapsedTime;
             public int score;
-            public int curResource;
+			public float curResource;
             public float resourceChargeTime;
             //public int difficulty;
 
@@ -85,17 +85,23 @@ namespace Doll
             if (inGameVars.curResource >= gameSetting.ResourceMaxCount)
                 return;
 
+			AddResource(Time.deltaTime / gameSetting.ResourceChargingSpeed);
+			/*
             inGameVars.resourceChargeTime += Time.deltaTime;
             if (inGameVars.resourceChargeTime > gameSetting.ResourceChargingSpeed)
             {
                 inGameVars.resourceChargeTime = 0;
                 AddResource();
-            }
+
+             }
+			*/
+
+
         }
 
-        public void AddResource()
+		public void AddResource(float dt = 0f)
         {
-            inGameVars.curResource++;
+			inGameVars.curResource += dt;
         }
 
         public void SubResource()

@@ -97,7 +97,7 @@ namespace Doll
 
                 if (hit.transform.tag == "Ground")
                 {
-                    if (GameManagerScript.Instance.inGameVars.curResource <= 0)
+                    if (GameManagerScript.Instance.inGameVars.curResource < 1)
                     {
                         Debug.Log("Not Enough Resource");
                         return;
