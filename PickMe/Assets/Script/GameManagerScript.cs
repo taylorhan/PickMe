@@ -35,6 +35,7 @@ namespace Doll
             //public int difficulty;
 
             public bool isGameOver;
+            public bool isGameStart;
         }
         public InGameVars inGameVars;
 
@@ -46,6 +47,7 @@ namespace Doll
             inGameVars.curResource = 0;
             inGameVars.resourceChargeTime = 0;
             inGameVars.isGameOver = false;
+            inGameVars.isGameStart = false;
         }
 
         void Awake()
@@ -62,7 +64,7 @@ namespace Doll
             }
         }
 
-        void SetElapsedTime()
+        public void SetElapsedTime()
         {
             if (inGameVars.elapsedTime >= gameSetting.GameTime)
             {
@@ -73,12 +75,12 @@ namespace Doll
             inGameVars.elapsedTime += Time.deltaTime;
         }
 
-        void SetRemainTime()
+        public void SetRemainTime()
         {
             inGameVars.remainTime = gameSetting.GameTime - inGameVars.elapsedTime;
         }
 
-        void CheckAddResource()
+        public void CheckAddResource()
         {
             if (inGameVars.curResource >= gameSetting.ResourceMaxCount)
                 return;
@@ -86,7 +88,8 @@ namespace Doll
             inGameVars.resourceChargeTime += Time.deltaTime;
             if (inGameVars.resourceChargeTime > gameSetting.ResourceChargingSpeed)
             {
-                inGameVars.curResource++;
+                inGameVars.resourceChargeTime = 0;
+                AddResource();
             }
         }
 
@@ -120,18 +123,6 @@ namespace Doll
         // Update is called once per frame
         void Update()
         {
-            if (inGameVars.isGameOver == false)
-            {
-                SetElapsedTime();
-                SetRemainTime();
-                CheckAddResource();
-            }
-            else
-            {
-                //Show Time Over UI
-                
-            }
-            
         }
     }
 }

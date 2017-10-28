@@ -22,40 +22,24 @@ namespace Doll
         }
         void OnGUI()
         {
-            if (GUI.RepeatButton(new Rect(0, 0, 60, 80), "Bear"))
-            {
-                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.Bear);
-                Debug.Log("BEAR");
-            }
-            if (GUI.RepeatButton(new Rect(60, 0, 60, 80), "Rabbit"))
-            {
-                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.Rabbit);
-                Debug.Log("Rabbit");
-            }
-            if (GUI.RepeatButton(new Rect(120, 0, 60, 80), "Fox"))
-            {
-                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.Fox);
-                Debug.Log("Fox");
-            }
-
-            if(GUI.RepeatButton(new Rect(200, 0, 60, 80), "EBear"))
+            if(GUI.RepeatButton(new Rect(0, 0, 60, 80), "EBear"))
             {
                 objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.EBear);
                 Debug.Log("EBEAR");
             }
-            if (GUI.RepeatButton(new Rect(260, 0, 60, 80), "ERabbit"))
+            if (GUI.RepeatButton(new Rect(60, 0, 60, 80), "ERabbit"))
             {
                 objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.ERabbit);
                 Debug.Log("ERabbit");
             }
-            if (GUI.RepeatButton(new Rect(320, 0, 60, 80), "EFox"))
+            if (GUI.RepeatButton(new Rect(120, 0, 60, 80), "EFox"))
             {
                 objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.EFox);
                 Debug.Log("EFox");
             }
 
 
-            if (GUI.RepeatButton(new Rect(320, 120, 60, 80), "Exit"))
+            if (GUI.RepeatButton(new Rect(330, 0, 60, 80), "Exit"))
             {
                 GameManagerScript.Instance.inGameVars.isGameOver = true;
                 

@@ -60,10 +60,6 @@ namespace Doll
             float maxDistDt = GameManagerScript.Instance.gameSetting.DollSpeed;
             Vector3 targetPos = new Vector3(Destiny.x, Destiny.y, Destiny.z);
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos, maxDistDt);
-
-            //Debug.Log(string.Format("LocalPos = {0},{1}", transform.localPosition.x, transform.localPosition.y));
-            //Debug.Log(string.Format("targetPos = {0},{1}", targetPos.x, targetPos.y));
-            //Debug.Log(string.Format("maxDistDt = {0}", maxDistDt));
         }
 
         public void CheckState()
