@@ -31,7 +31,7 @@ namespace Doll
         int layermask;
         public int SelectedDollIndex;
 
-        public static int[] arrDollCount = new int[6];
+		public static int[] arrDollCount;	
 
         // Use this for initialization
         void Start()

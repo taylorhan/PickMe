@@ -12,7 +12,7 @@ public class Random_Move_Script : MonoBehaviour {
 	public bool Stop_For_Fight;
 
 	// Use this for initialization
-	void Start () {
+	/*void Start () {
 		FloorObj = GameObject.Find ("Floor");
 		Destiny = Vector3.zero;
 		Speed = 5f;
@@ -28,20 +28,15 @@ public class Random_Move_Script : MonoBehaviour {
 	void Update () {
 		if (this.transform.position == Destiny
 			|| Destiny == Vector3.zero)
-			Set_Random_Destiny();
+			//Set_Random_Destiny();
 		if (Stop_For_Fight == false) {
 			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (Destiny.x, Destiny.y, Destiny.z), Time.deltaTime * Speed);
 		}
 	}
 
-	public void Set_Random_Destiny(){
-		Destiny = new Vector3 (Random.Range (-FloorObj.transform.localScale.x + this.transform.GetChild (0).transform.localScale.x, 
-								FloorObj.transform.localScale.x - this.transform.GetChild (0).transform.localScale.x)/2,
-								Random.Range (-FloorObj.transform.localScale.y + this.transform.GetChild (0).transform.localScale.y, 
-								FloorObj.transform.localScale.y - this.transform.GetChild (0).transform.localScale.y)/2, 0);
-	}
 
-	public int Set_Advantage(Transform obj){
+
+	public int Set_Advantage(Transform obj, Transform tkMud){
 		int Advan = 0;
 		if (obj.gameObject.tag == "Bear")
 			Advan = 1;
@@ -58,6 +53,10 @@ public class Random_Move_Script : MonoBehaviour {
 
 		return Advan;
 	}
+
+	//내가 이기냐 지냐? return bool
+	//이겼으면 어ㅓㅎ게 할건지
+	//졌ㅡ면 어ㅓㅎ게 할ㄴ지
 
 	void KillDoll()
 	{
@@ -96,5 +95,5 @@ public class Random_Move_Script : MonoBehaviour {
 		}
 	}
 
-
+*/
 }
