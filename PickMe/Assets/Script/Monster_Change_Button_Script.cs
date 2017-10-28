@@ -2,30 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster_Change_Button_Script : MonoBehaviour {
+namespace Doll
+{
+    public class Monster_Change_Button_Script : MonoBehaviour
+    {
+        public Object_Manager_Script objManagerScript;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-	void OnGUI(){
-		if(GUI.RepeatButton(new Rect(850,650,150,80),"Bear")){
-			GameObject.Find ("Object Manager").GetComponent<Object_Manager_Script> ().Change_Mon_Num = 1;
-			Debug.Log("BEAR");
-		}
-		if(GUI.RepeatButton(new Rect(650,650,150,80),"Rabbit")){
-			GameObject.Find ("Object Manager").GetComponent<Object_Manager_Script> ().Change_Mon_Num = 2;
-			Debug.Log("BEAR");
-		}
-		if(GUI.RepeatButton(new Rect(450,650,150,80),"Fox")){
-			GameObject.Find ("Object Manager").GetComponent<Object_Manager_Script> ().Change_Mon_Num = 3;
-			Debug.Log("BEAR");
-		}
+        // Use this for initialization
+        void Start()
+        {
 
-	}
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+        void OnGUI()
+        {
+            if (GUI.RepeatButton(new Rect(0, 0, 60, 80), "Bear"))
+            {
+                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.Bear);
+                Debug.Log("BEAR");
+            }
+            if (GUI.RepeatButton(new Rect(60, 0, 60, 80), "Rabbit"))
+            {
+                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.Rabbit);
+                Debug.Log("Rabbit");
+            }
+            if (GUI.RepeatButton(new Rect(120, 0, 60, 80), "Fox"))
+            {
+                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.Fox);
+                Debug.Log("Fox");
+            }
+
+        }
+    }
 }
