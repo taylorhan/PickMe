@@ -130,7 +130,8 @@ namespace Doll
 
         public void SetupSuper(bool start)
         {
-			if (start) {
+			if (start)
+            {
 				Check_Super = true;
 				Timer = 0f;
 			}

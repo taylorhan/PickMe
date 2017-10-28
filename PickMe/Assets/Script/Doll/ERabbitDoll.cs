@@ -17,9 +17,11 @@ namespace Doll
         void Update()
         {
             CheckState();
-			if (Check_Super == true) {
+			if (Check_Super == true)
+            {
 				Timer += Time.deltaTime;
-				if (Timer > Limit_Time) {
+				if (Timer > Limit_Time)
+                {
 					invincible = false;
 					Check_Super = false;
 				}

@@ -6,88 +6,214 @@ namespace Doll
 {
     public class Picker_Manager_Script : MonoBehaviour
     {
+        public enum ePickerState
+        {
+            Move_Horizontal = 0,
+            Move_Down,
+            Move_Up,
+            Pick,
+        }
+        public ePickerState pickerState = ePickerState.Move_Horizontal;
 
-	    public float DownPeriod;
-	    public float elapsedTime;
-	    public bool Stop_Check;
+        //Val for Movement
+        private float H_Margin = 470;
+        private float V_Init = 250;
+        private float V_TopMargin = 200;
+        private float V_BotMargin = -140;
+        private int H_Dir = 1;
 
-        Vector2 Picker_Pos;
+        //Val for State
+        private float DownPeriod = 2;
+	    private float elapsedTime = 0f;
+        private bool IsPickUp = false;
+        private float UpPeriod = 0.2f;
 
-        float previous;
-        public float speed;
+        [System.Serializable]
+        public class PickerSetting
+        {
+            public float speed = 10;
+            public float minDownPeriod = 2;
+            public float maxDownPeriod = 5;
+        }
+        public PickerSetting pickerSetting;
+
         bool Check = false;
 
-        Vector3 Destiny;
-        GameObject floor;
+        //Val for Down
+        float DestPosY = 0;
 
         void Start ()
         {
-		    DownPeriod = 3f;
-		    elapsedTime = 0f;
-		    Stop_Check = false;
-			speed = 10f;
+            //Init Vals
+            SetPickerState(ePickerState.Move_Horizontal);
 
-            Destiny = Vector3.zero;
-            floor = InGameManager.Instance.floor;
+            SetRandomDownPeriod();
+            DestPosY = V_BotMargin;
+
+            //Init Pos
+            InitPos();
         }
 
         void Update ()
         {
-	        if (Stop_Check == false)
-            {
-		        elapsedTime += Time.deltaTime;
-		        if (elapsedTime > DownPeriod)
-                {
-                    elapsedTime = 0;
-                    previous = this.transform.position.y;
+            //좌우로 계속 이동
+            MoveHorizontal();
 
-			        Stop_Check = true;
+            //만약 내려갈 조건(시간 등)이 되었다면 좌우이동 멈추고 아래로 내려가기
+            CheckTimeToDown();
+            MoveDown();
 
-                    Destiny = InGameManager.Instance.Set_Random_Destiny();
-		        }
-	        }
-            else
+            //픽업 상태로 변경 & 내려간 위치에서 콜라이더 Enable
+            SetPickUp();
+
+            //콜라이더에서 가장 먼저 접촉한 캐릭터 무적 설정 + Parent 바꿔서 들기
+            CheckTimeToUp();
+
+            //초기 높이로 올라오기
+            MoveUp();
+
+            //천장 축까지 올라오면 캐릭터 사라지고 점수 ++
+
+            //집게 초기화
+
+
+        }
+
+        private void FixedUpdate()
+        {
+            //if (IsPickUp == true)
+            //{
+            //    Debug.Log("Picker::FixedUpdate - Off PickUp Flag");
+            //    IsPickUp = false;
+            //    SetPickerState(ePickerState.Move_Up);
+            //}
+        }
+
+        void SetPickerState(ePickerState state)
+        {
+            pickerState = state;
+        }
+        
+        void InitPos()
+        {
+            Vector3 curLocalPos = transform.localPosition;
+            float ranPosX = Random.Range(-H_Margin, H_Margin);
+            transform.localPosition = new Vector3(ranPosX, V_Init, curLocalPos.z);
+            H_Dir = (ranPosX < 0) ? H_Dir : -H_Dir;
+        }
+
+        void MoveHorizontal()
+        {
+            if (pickerState != ePickerState.Move_Horizontal)
+                return;
+
+            Vector3 curLocalPos = transform.localPosition;
+
+            float posX = curLocalPos.x + (H_Dir * pickerSetting.speed);
+
+            if (-H_Margin <= curLocalPos.x && curLocalPos.x <= H_Margin)
             {
-	            if (Check == false)
-                {
-                    DownPicker();
-                }
-	            if (Check == true)
-                {
-                    ReturnPicker();
-                }
+                
             }
-	    }
-	    public	void DownPicker()
+            else if (curLocalPos.x > H_Margin && H_Dir == 1)
+            {
+                posX = H_Margin;
+                H_Dir = -1;
+            }
+            else if (transform.localPosition.x < -H_Margin && H_Dir == -1)
+            {
+                posX = -H_Margin;
+                H_Dir = 1;
+            }
+            transform.localPosition = new Vector3(posX, curLocalPos.y, curLocalPos.z);
+        }
+
+        void CheckTimeToDown()
         {
-		    if (Destiny.x != this.transform.localPosition.x)
+            if (pickerState != ePickerState.Move_Horizontal)
+                return;
+
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime > DownPeriod)
             {
-			    transform.localPosition = Vector2.MoveTowards (new Vector2 (transform.localPosition.x, transform.localPosition.y), new Vector2 (Destiny.x, transform.localPosition.y), speed);
-		    }
-            else if (Destiny.y != this.transform.localPosition.y)
-            {
-			    transform.localPosition = Vector2.MoveTowards (new Vector2 (transform.localPosition.x, transform.localPosition.y), new Vector2 (Destiny.x, Destiny.y), speed);
-		    }
-            else
-            {
-			    Check = true;
-		    }
-	    }
-	    public void ReturnPicker()
+                elapsedTime = 0;
+                SetPickerState(ePickerState.Move_Down);
+                DestPosY = Random.Range(V_BotMargin, V_TopMargin);
+            }
+        }
+
+        void SetRandomDownPeriod()
         {
-		    if (previous != this.transform.localPosition.y)
+            DownPeriod = Random.Range(pickerSetting.minDownPeriod, pickerSetting.maxDownPeriod);
+        }
+
+        void MoveDown()
+        {
+            if (pickerState != ePickerState.Move_Down)
+                return;
+
+            Vector3 curLocalPos = transform.localPosition;
+
+            float posY = curLocalPos.y + ((-1) * pickerSetting.speed);
+            if (posY < DestPosY)
             {
-			    transform.localPosition = Vector2.MoveTowards (new Vector2 (transform.localPosition.x, transform.localPosition.y), new Vector2 (transform.localPosition.x, previous), speed);
-		    }
-            else
+                posY = DestPosY;
+                SetPickerState(ePickerState.Pick);
+                //SetPickerState(ePickerState.Move_Up);
+            }
+            transform.localPosition = new Vector3(curLocalPos.x, posY, curLocalPos.z);
+        }
+
+        void SetPickUp()
+        {
+            if (pickerState != ePickerState.Pick)
+                return;
+
+            IsPickUp = true;
+        }
+
+        void CheckTimeToUp()
+        {
+            if (pickerState != ePickerState.Pick)
+                return;
+
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime > UpPeriod)
             {
-			    Check = false;
-			    Stop_Check = false;
-		    }
-	    }
+                elapsedTime = 0;
+                SetPickerState(ePickerState.Move_Up);
+            }
+        }
+
+        void MoveUp()
+        {
+            if (pickerState != ePickerState.Move_Up)
+                return;
+
+            Vector3 curLocalPos = transform.localPosition;
+
+            float posY = curLocalPos.y + pickerSetting.speed;
+            if (posY > V_Init)
+            {
+                posY = V_Init;
+                SetPickerState(ePickerState.Move_Horizontal);
+            }
+            transform.localPosition = new Vector3(curLocalPos.x, posY, curLocalPos.z);
+        }
+
 	    void OnTriggerEnter2D(Collider2D col)
         {
-		    Debug.Log ("! : " + col.tag);
+            if (IsPickUp == false)
+                return;
+
+            Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
+
+            if (col.gameObject.tag == "Doll")
+            {
+                Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
+                col.gameObject.GetComponent<Doll>().SetupSuper(true);
+                col.transform.parent = transform;
+            }
 	    }
     }
 }
