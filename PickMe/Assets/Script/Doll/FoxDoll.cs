@@ -18,6 +18,11 @@ namespace Doll
         {
             CheckState();
         }
+
+        void OnTriggerEnter2D(Collider2D col)
+        {
+            bool isDead = CheckIsDead(Object_Manager_Script.eDoll.EBear, objManagerScript.FoxList, this.gameObject, col.gameObject);
+        }
     }
 
 }

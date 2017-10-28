@@ -18,6 +18,7 @@ namespace Doll
             Battle, //전투 중
             Invincible, //무적(집게 충돌 중)
             Pickup, //집게 올라가는 중
+            Dead,
         }
         eDollState dollState = eDollState.Idle;
 
@@ -85,6 +86,11 @@ namespace Doll
 
                     }
                     break;
+                case eDollState.Dead:
+                    {
+                        //Animation 연출
+                    }
+                    break;
                 default:
                     break;
             }
@@ -93,34 +99,22 @@ namespace Doll
 
 		public Object_Manager_Script objManagerScript;
 
-		public void Set_Advantage(GameObject Myobj, GameObject Enemyobj){
-			switch(Myobj.GetComponent<Doll>().Type){
-			case (int)Object_Manager_Script.eDoll.Bear:
-				if(Enemyobj.GetComponent<Doll>().Type == (int)Object_Manager_Script.eDoll.ERabbit)
-					this.GetComponent<Object_Manager_Script>().Delete_Obj(this.GetComponent<Object_Manager_Script>().BearList,this.gameObject);
-				break;
-			case (int)Object_Manager_Script.eDoll.Rabbit:
-				if(Enemyobj.GetComponent<Doll>().Type == (int)Object_Manager_Script.eDoll.EFox)
-					this.GetComponent<Object_Manager_Script>().Delete_Obj(this.GetComponent<Object_Manager_Script>().RabbitList,this.gameObject);
-				break;
-			case (int)Object_Manager_Script.eDoll.Fox:
-				if(Enemyobj.GetComponent<Doll>().Type == (int)Object_Manager_Script.eDoll.EBear)
-					this.GetComponent<Object_Manager_Script>().Delete_Obj(this.GetComponent<Object_Manager_Script>().FoxList,this.gameObject);
-				break;
-			case (int)Object_Manager_Script.eDoll.EBear:
-				if(Enemyobj.GetComponent<Doll>().Type == (int)Object_Manager_Script.eDoll.Rabbit)
-					this.GetComponent<Object_Manager_Script>().Delete_Obj(this.GetComponent<Object_Manager_Script>().EBearList,this.gameObject);
-				break;
-			case (int)Object_Manager_Script.eDoll.ERabbit:
-				if(Enemyobj.GetComponent<Doll>().Type == (int)Object_Manager_Script.eDoll.Fox)
-					this.GetComponent<Object_Manager_Script>().Delete_Obj(this.GetComponent<Object_Manager_Script>().ERabbitList,this.gameObject);
-				break;
-			case (int)Object_Manager_Script.eDoll.EFox:
-				if(Enemyobj.GetComponent<Doll>().Type == (int)Object_Manager_Script.eDoll.Bear)
-					this.GetComponent<Object_Manager_Script>().Delete_Obj(this.GetComponent<Object_Manager_Script>().EFoxList,this.gameObject);
-				break;
-			}
-		}
+        public bool CheckIsDead(Object_Manager_Script.eDoll enemyType, List<GameObject> list, GameObject selfObj, GameObject enemyObj)
+        {
+            if (enemyObj.GetComponent<Doll>().Type == (int)enemyType)
+            {
+                objManagerScript.Delete_Obj(list, selfObj);
+                return true;
+            }
+
+            return false;
+        }
+
+        void StartDeadAnim()
+        {
+
+        }
+
         // Update is called once per frame
         void Update()
         {
