@@ -130,6 +130,7 @@ namespace Doll
 			dollObj.transform.position = hitInfo;
             dollObj.SetActive(isAdded);
 			dollObj.GetComponent<Doll> ().Limit_Time = 1.5f;
+			dollObj.GetComponent<Doll> ().invincible = true;
 			dollObj.GetComponent<Doll> ().SetupSuper (true);
         }
 			
@@ -152,15 +153,16 @@ namespace Doll
 
         public void Delete_Obj(List<GameObject> list, GameObject obj)
         {
-			list.Remove(obj);
+			
+				list.Remove (obj);
 
-			Transform tParent = Dolls_obj [obj.GetComponent<Doll> ().Type].transform;
-			if (tParent.childCount > 10) {
-				Destroy (obj);
-			} else {
-				obj.transform.parent = tParent;
-				obj.SetActive(false);
-			}
+				Transform tParent = Dolls_obj [obj.GetComponent<Doll> ().Type].transform;
+				if (tParent.childCount > 10) {
+					Destroy (obj);
+				} else {
+					obj.transform.parent = tParent;
+					obj.SetActive (false);
+				}
         }
     }
 }

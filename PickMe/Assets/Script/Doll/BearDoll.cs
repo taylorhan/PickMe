@@ -21,6 +21,7 @@ namespace Doll
 			if (GetComponent<Doll>().Check_Super == true) {
 				GetComponent<Doll> ().Timer += Time.deltaTime;
 				if (GetComponent<Doll> ().Timer > GetComponent<Doll> ().Limit_Time) {
+					GetComponent<Doll> ().invincible = false;
 					GetComponent<Doll> ().Check_Super = false;
 				}
 			}
@@ -28,7 +29,9 @@ namespace Doll
 
         void OnTriggerEnter2D(Collider2D col)
         {
-            bool isDead = CheckIsDead(Object_Manager_Script.eDoll.ERabbit, objManagerScript.BearList, this.gameObject, col.gameObject);
+			if (GetComponent<Doll> ().invincible == false && col.GetComponent<Doll>().invincible == false) {
+				bool isDead = CheckIsDead (Object_Manager_Script.eDoll.ERabbit, objManagerScript.BearList, this.gameObject, col.gameObject);
+			}
         }
     }
 }

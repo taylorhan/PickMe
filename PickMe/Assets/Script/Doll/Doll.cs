@@ -135,6 +135,8 @@ namespace Doll
 			}
 		}
 
+		public bool invincible;
+
         void StartDeadAnim()
         {
 
