@@ -28,6 +28,16 @@ namespace Doll
             }
         }
 
+        public Vector3 Set_Random_Destiny()
+        {
+            float floorWidth = floor.GetComponent<BoxCollider2D>().size.x;
+            float floorHeight = floor.GetComponent<BoxCollider2D>().size.y;
+            float destPosX = Random.Range(-floorWidth / 2, floorWidth / 2);
+            float destPosY = Random.Range(-floorHeight / 2, floorHeight / 2);
+
+            return new Vector3(destPosX, destPosY, 0);
+        }
+
         // Use this for initialization
         void Start()
         {

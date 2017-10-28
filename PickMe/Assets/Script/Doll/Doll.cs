@@ -9,7 +9,12 @@ namespace Doll
         public int index = 0;
         public int Type = 2;
 
-		GameObject floor;
+        public float Timer;
+        public float Limit_Time;
+        public bool Check_Super;
+        public bool invincible;
+
+        GameObject floor;
         [HideInInspector]
         public Object_Manager_Script objManagerScript;
 
@@ -38,7 +43,6 @@ namespace Doll
         public void InitDoll()
         {
 			Destiny = Vector3.zero;
-
             floor = InGameManager.Instance.floor;
             objManagerScript = InGameManager.Instance.objManagerScript;
         }
@@ -48,24 +52,19 @@ namespace Doll
             dollState = state;
         }
 
-		public void Set_Random_Destiny()
-        {
-            float floorWidth = floor.GetComponent<BoxCollider2D>().size.x;
-            float floorHeight = floor.GetComponent<BoxCollider2D>().size.y;
-            float destPosX = Random.Range(-floorWidth / 2, floorWidth / 2);
-            float destPosY = Random.Range(-floorHeight / 2, floorHeight / 2);
-            Destiny = new Vector3 (destPosX, destPosY, 0);
-		}
-
 		public void SetMove()
         {
 			if (Check_Super == true)
 				return;
 
-            float maxDistDt = Time.deltaTime * GameManagerScript.Instance.gameSetting.DollSpeed;
+            float maxDistDt = GameManagerScript.Instance.gameSetting.DollSpeed;
             Vector3 targetPos = new Vector3(Destiny.x, Destiny.y, Destiny.z);
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos, maxDistDt);
-		}
+
+            //Debug.Log(string.Format("LocalPos = {0},{1}", transform.localPosition.x, transform.localPosition.y));
+            //Debug.Log(string.Format("targetPos = {0},{1}", targetPos.x, targetPos.y));
+            //Debug.Log(string.Format("maxDistDt = {0}", maxDistDt));
+        }
 
         public void CheckState()
         {
@@ -74,18 +73,18 @@ namespace Doll
                 case eDollState.Idle:
                     {
                         //일정 시간 무적 적용
-					SetDollState (eDollState.Move);
+                     
                         //이동 애니메이션 설정
+                        SetDollState(eDollState.Move);
                     }
                     break;
                 case eDollState.Move:
                     {
-					if (this.transform.position == Destiny || Destiny == Vector3.zero) {
-						Set_Random_Destiny ();
-					}
-					SetMove ();
-
-                    
+					    if (this.transform.localPosition == Destiny || Destiny == Vector3.zero)
+                        {
+                            Destiny = InGameManager.Instance.Set_Random_Destiny();
+					    }
+					    SetMove();
                     }
                     break;
                 case eDollState.Battle:
@@ -119,6 +118,9 @@ namespace Doll
             if (enemyObj.tag != "Doll")
                 return false;
 
+            if (GetComponent<Doll>().invincible == true || enemyObj.GetComponent<Doll>().invincible == true)
+                return false;
+
             if (enemyObj.GetComponent<Doll>().Type == (int)enemyType)
             {
                 objManagerScript.Delete_Obj(list, selfObj);
@@ -127,18 +129,14 @@ namespace Doll
 
             return false;
         }
-		public float Timer;
-		public float Limit_Time;
-		public bool Check_Super;
 
-		public void SetupSuper(bool start){
+        public void SetupSuper(bool start)
+        {
 			if (start) {
 				Check_Super = true;
 				Timer = 0f;
 			}
 		}
-
-		public bool invincible;
 
         void StartDeadAnim()
         {

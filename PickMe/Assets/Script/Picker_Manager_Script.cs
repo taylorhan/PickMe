@@ -7,57 +7,43 @@ namespace Doll
     public class Picker_Manager_Script : MonoBehaviour
     {
 
-	    public float Down_Time;
-	    public float Time_Check;
+	    public float DownPeriod;
+	    public float elapsedTime;
 	    public bool Stop_Check;
 
         Vector2 Picker_Pos;
 
-	    void Start () {
-		    Down_Time = 3f;
-		    Time_Check = 0f;
+        float previous;
+        public float speed;
+        bool Check = false;
+
+        Vector3 Destiny;
+        GameObject floor;
+
+        void Start ()
+        {
+		    DownPeriod = 3f;
+		    elapsedTime = 0f;
 		    Stop_Check = false;
-			speed = 3f;
-			//newVec = Vector2.zero;
+			speed = 10f;
 
             Destiny = Vector3.zero;
             floor = InGameManager.Instance.floor;
         }
 
-	    //Vector2 newVec;
-	    float previous;
-	    public float speed;
-	    bool Check = false;
-
-        Vector3 Destiny;
-        GameObject floor;
-
-        // Update is called once per frame
-        public void Set_Random_Destiny()
+        void Update ()
         {
-            float floorWidth = floor.GetComponent<BoxCollider2D>().size.x;
-            float floorHeight = floor.GetComponent<BoxCollider2D>().size.y;
-            float destPosX = Random.Range(-floorWidth / 2, floorWidth / 2);
-            float destPosY = Random.Range(-floorHeight / 2, floorHeight / 2);
-            Destiny = new Vector3(destPosX, destPosY, 0);
-        }
-
-        void Update () {
-	        if (Stop_Check == false) {
-		        Time_Check += Time.deltaTime;
-		        if (Time_Check > Down_Time)
+	        if (Stop_Check == false)
+            {
+		        elapsedTime += Time.deltaTime;
+		        if (elapsedTime > DownPeriod)
                 {
-			        previous = this.transform.position.y;
+                    elapsedTime = 0;
+                    previous = this.transform.position.y;
 
 			        Stop_Check = true;
 
-                    /*
-			        float X = Random.Range (-floor.transform.localScale.x + this.transform.localScale.x, floor.transform.localScale.x - this.transform.localScale.x);
-			        float Y = Random.Range (-floor.transform.localScale.y + this.transform.localScale.y, floor.transform.localScale.y - this.transform.localScale.y);
-                    */
-                    //newVec = new Vector2 (X / 2, Y / 2);
-
-                    Set_Random_Destiny();
+                    Destiny = InGameManager.Instance.Set_Random_Destiny();
 		        }
 	        }
             else
@@ -72,20 +58,29 @@ namespace Doll
                 }
             }
 	    }
-	    public	void DownPicker(){
-		    if (Destiny.x != this.transform.position.x) {
-			    transform.position = Vector2.MoveTowards (new Vector2 (transform.position.x, transform.position.y), new Vector2 (Destiny.x, transform.position.y), speed * Time.deltaTime);
-		    } else if (Destiny.y != this.transform.position.y) {
-			    transform.position = Vector2.MoveTowards (new Vector2 (transform.position.x, transform.position.y), new Vector2 (Destiny.x, Destiny.y), speed * Time.deltaTime);
-		    } else {
+	    public	void DownPicker()
+        {
+		    if (Destiny.x != this.transform.localPosition.x)
+            {
+			    transform.localPosition = Vector2.MoveTowards (new Vector2 (transform.localPosition.x, transform.localPosition.y), new Vector2 (Destiny.x, transform.localPosition.y), speed);
+		    }
+            else if (Destiny.y != this.transform.localPosition.y)
+            {
+			    transform.localPosition = Vector2.MoveTowards (new Vector2 (transform.localPosition.x, transform.localPosition.y), new Vector2 (Destiny.x, Destiny.y), speed);
+		    }
+            else
+            {
 			    Check = true;
 		    }
 	    }
-	    public void ReturnPicker(){
-		    if (previous != this.transform.position.y) {
-			    transform.position = Vector2.MoveTowards (new Vector2 (transform.position.x, transform.position.y), new Vector2 (transform.position.x, previous), speed * Time.deltaTime);
-		    } else {
-			    Time_Check = 0;
+	    public void ReturnPicker()
+        {
+		    if (previous != this.transform.localPosition.y)
+            {
+			    transform.localPosition = Vector2.MoveTowards (new Vector2 (transform.localPosition.x, transform.localPosition.y), new Vector2 (transform.localPosition.x, previous), speed);
+		    }
+            else
+            {
 			    Check = false;
 			    Stop_Check = false;
 		    }

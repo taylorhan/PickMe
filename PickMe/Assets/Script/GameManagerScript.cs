@@ -20,7 +20,7 @@ namespace Doll
             public int ResourceChargingSpeed = 3;
             public int ResourceMaxCount = 10;
             public Object_Manager_Script.eDoll objectiveDollType = Object_Manager_Script.eDoll.Bear;
-            public float DollSpeed = 1.5f;
+            public float DollSpeed = 10f;
         }
         public GameSetting gameSetting;
 

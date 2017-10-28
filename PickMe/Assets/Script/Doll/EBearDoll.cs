@@ -28,9 +28,7 @@ namespace Doll
 
         void OnTriggerEnter2D(Collider2D col)
         {
-			if (invincible == false && col.GetComponent<Doll>().invincible == false) {
-				bool isDead = CheckIsDead (Object_Manager_Script.eDoll.Rabbit, objManagerScript.EBearList, this.gameObject, col.gameObject);
-			}
+			bool isDead = CheckIsDead (Object_Manager_Script.eDoll.Rabbit, objManagerScript.EBearList, this.gameObject, col.gameObject);
         }
     }
 
