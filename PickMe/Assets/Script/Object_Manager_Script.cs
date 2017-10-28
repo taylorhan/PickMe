@@ -11,8 +11,6 @@ namespace Doll
 		[HideInInspector]
         public GameObject[] Dolls_obj;
 
-        public GameObject floor;
-        
         public List<GameObject> BearList;
         public List<GameObject> RabbitList;
         public List<GameObject> FoxList;
@@ -48,7 +46,7 @@ namespace Doll
             Dolls_obj[(int)eDoll.ERabbit] = GameObject.Find("ERabbit");
             Dolls_obj[(int)eDoll.EFox] = GameObject.Find("EFox");
 
-            layermask = (-1) - (1 << LayerMask.NameToLayer("Monster"));
+            layermask = (-1) - (1 << LayerMask.NameToLayer("Ground"));
 
             SetSelectedDollIndex((int)eDoll.Bear);
 
@@ -86,18 +84,21 @@ namespace Doll
         // Update is called once per frame
         void Update()
         {
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hitInfo;
             if (Input.GetMouseButtonUp(0))
             {
-                if (Physics.Raycast(ray, out hitInfo, 100f, layermask))
+                float posX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x;
+                float posY = Camera.main.ScreenToWorldPoint(Input.mousePosition).y;
+                RaycastHit2D hit = Physics2D.Raycast(new Vector2(posX, posY), Vector2.zero, 0f);
+                if (hit == false)
                 {
-                    if (hitInfo.transform.tag == "Ground")
-                    {
-                        Debug.Log(hitInfo.point);
-                        Insert_Obj(SelectedDollIndex, hitInfo.point);
-                    }
+                    Debug.Log("Hit Error - Null");
+                    return;
+                }
+
+                if (hit.transform.tag == "Ground")
+                {
+                    Debug.Log(string.Format("Hit Obj :: {0}", hit.transform.gameObject.name));
+                    Insert_Obj(SelectedDollIndex, hit.point);
                 }
             }
         }
@@ -109,10 +110,13 @@ namespace Doll
 
         bool AddDollToFloor(Transform tDoll)
         {
-            if (floor == null)
+            if (InGameManager.Instance.floor == null)
+            {
+                Debug.Log("Object_Manager_Script::AddDollToFloor - Floor is Null");
                 return false;
+            }
 
-            tDoll.parent = floor.transform;
+            tDoll.parent = InGameManager.Instance.floor.transform;
             return true;
         }
 

@@ -13,9 +13,6 @@ namespace Doll
             get { return self; }
         }
 
-        public Object_Manager_Script objManagerScript;
-        public GameObject floor;
-
         [System.Serializable]
         public class GameSetting
         {
@@ -60,6 +57,7 @@ namespace Doll
             else
             {
                 Debug.LogWarning("Must be single monobehaviour.");
+                Destroy(gameObject);
                 return;
             }
         }

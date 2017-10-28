@@ -39,8 +39,8 @@ namespace Doll
         {
 			Destiny = Vector3.zero;
 
-            floor = GameManagerScript.Instance.floor;
-            objManagerScript = GameManagerScript.Instance.objManagerScript;
+            floor = InGameManager.Instance.floor;
+            objManagerScript = InGameManager.Instance.objManagerScript;
         }
 
         public void SetDollState(eDollState state)
@@ -48,15 +48,15 @@ namespace Doll
             dollState = state;
         }
 
-		public void Set_Random_Destiny(GameObject obj)
+		public void Set_Random_Destiny()
         {
-            float destPosX = Random.Range(-floor.transform.localScale.x + obj.transform.GetChild(0).transform.localScale.x,
-                floor.transform.localScale.x - obj.transform.GetChild(0).transform.localScale.x);
-            float destPosY = Random.Range(-floor.transform.localScale.y + obj.transform.GetChild(0).transform.localScale.y,
-                    floor.transform.localScale.y - obj.transform.GetChild(0).transform.localScale.y);
-
-            Destiny = new Vector3 (destPosX / 2, destPosY / 2, 0);
+            float floorWidth = floor.GetComponent<BoxCollider2D>().size.x;
+            float floorHeight = floor.GetComponent<BoxCollider2D>().size.y;
+            float destPosX = Random.Range(-floorWidth / 2, floorWidth / 2);
+            float destPosY = Random.Range(-floorHeight / 2, floorHeight / 2);
+            Destiny = new Vector3 (destPosX, destPosY, 0);
 		}
+
 		public void SetMove()
         {
 			if (Check_Super == true)
@@ -64,7 +64,7 @@ namespace Doll
 
             float maxDistDt = Time.deltaTime * GameManagerScript.Instance.gameSetting.DollSpeed;
             Vector3 targetPos = new Vector3(Destiny.x, Destiny.y, Destiny.z);
-            transform.position = Vector3.MoveTowards(transform.position, targetPos, maxDistDt);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos, maxDistDt);
 		}
 
         public void CheckState()
@@ -81,7 +81,7 @@ namespace Doll
                 case eDollState.Move:
                     {
 					if (this.transform.position == Destiny || Destiny == Vector3.zero) {
-						Set_Random_Destiny (this.gameObject);
+						Set_Random_Destiny ();
 					}
 					SetMove ();
 
@@ -116,6 +116,9 @@ namespace Doll
 
         public bool CheckIsDead(Object_Manager_Script.eDoll enemyType, List<GameObject> list, GameObject selfObj, GameObject enemyObj)
         {
+            if (enemyObj.tag != "Doll")
+                return false;
+
             if (enemyObj.GetComponent<Doll>().Type == (int)enemyType)
             {
                 objManagerScript.Delete_Obj(list, selfObj);

@@ -4,13 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Bear
-  - ERabbit
-  - Rabbit
-  - Fox
-  - EBear
-  - EFox
   - Ground
+  - Doll
   layers:
   - Default
   - TransparentFX
@@ -21,7 +16,7 @@ TagManager:
   - 
   - 
   - Monster
-  - 
+  - Ground
   - 
   - 
   - 
@@ -47,4 +42,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Floor
+    uniqueID: 3146234561
+    locked: 0
+  - name: HUD
+    uniqueID: 1567725209
     locked: 0
