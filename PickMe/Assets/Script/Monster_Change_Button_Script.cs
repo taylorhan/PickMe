@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Doll
 {
@@ -53,6 +54,23 @@ namespace Doll
                 Debug.Log("EFox");
             }
 
+
+            if (GUI.RepeatButton(new Rect(320, 120, 60, 80), "Exit"))
+            {
+                GameManagerScript.Instance.inGameVars.isGameOver = true;
+                
+                Debug.Log("Exit");
+            }
+
+            if (GameManagerScript.Instance.inGameVars.isGameOver == true)
+            {
+                if (GUI.RepeatButton(new Rect(Screen.width/2, Screen.height / 2, 60, 80), "Result"))
+                {
+                    // Load Result Scene
+                    SceneManager.LoadScene("Result");
+                    Debug.Log("Result");
+                }
+            }
         }
     }
 }

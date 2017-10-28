@@ -15,7 +15,7 @@ namespace Doll
 
         public enum eDollState
         {
-            Idle = 0,
+            Idle = 0, //대기
             Move, //이동 중
             Battle, //전투 중
             Invincible, //무적(집게 충돌 중)
@@ -25,7 +25,6 @@ namespace Doll
         eDollState dollState = eDollState.Idle;
 
 		Vector3 Destiny;
-		float Speed = 5f;
 
         public void Set_Information(int index, int Type)
         {
@@ -49,16 +48,23 @@ namespace Doll
             dollState = state;
         }
 
-		public void Set_Random_Destiny(GameObject obj){
-			Destiny = new Vector3 (Random.Range (-floor.transform.localScale.x + obj.transform.GetChild (0).transform.localScale.x, 
-				floor.transform.localScale.x - obj.transform.GetChild (0).transform.localScale.x)/2,
-				Random.Range (-floor.transform.localScale.y + obj.transform.GetChild (0).transform.localScale.y, 
-					floor.transform.localScale.y - obj.transform.GetChild (0).transform.localScale.y)/2, 0);
+		public void Set_Random_Destiny(GameObject obj)
+        {
+            float destPosX = Random.Range(-floor.transform.localScale.x + obj.transform.GetChild(0).transform.localScale.x,
+                floor.transform.localScale.x - obj.transform.GetChild(0).transform.localScale.x);
+            float destPosY = Random.Range(-floor.transform.localScale.y + obj.transform.GetChild(0).transform.localScale.y,
+                    floor.transform.localScale.y - obj.transform.GetChild(0).transform.localScale.y);
+
+            Destiny = new Vector3 (destPosX / 2, destPosY / 2, 0);
 		}
-		public void SetMove(){
+		public void SetMove()
+        {
 			if (Check_Super == true)
 				return;
-			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (Destiny.x, Destiny.y, Destiny.z), Time.deltaTime * Speed);
+
+            float maxDistDt = Time.deltaTime * GameManagerScript.Instance.gameSetting.DollSpeed;
+            Vector3 targetPos = new Vector3(Destiny.x, Destiny.y, Destiny.z);
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, maxDistDt);
 		}
 
         public void CheckState()
@@ -67,7 +73,9 @@ namespace Doll
             {
                 case eDollState.Idle:
                     {
+                        //일정 시간 무적 적용
 					SetDollState (eDollState.Move);
+                        //이동 애니메이션 설정
                     }
                     break;
                 case eDollState.Move:
@@ -76,11 +84,14 @@ namespace Doll
 						Set_Random_Destiny (this.gameObject);
 					}
 					SetMove ();
+
+                    
                     }
                     break;
                 case eDollState.Battle:
                     {
-
+                        //전투 애니메이션 설정
+                        //죽언ㅆ는지 살았는지 확인
                     }
                     break;
                 case eDollState.Invincible:
