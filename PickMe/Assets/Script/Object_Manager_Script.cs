@@ -141,7 +141,7 @@ namespace Doll
             dollComp.Set_Information(arrDollCount[eDollIndex]++, eDollIndex);
             BearList.Add(dollObj);
             bool isAdded = AddDollToFloor(dollObj.transform);
-			dollObj.transform.position = hitInfo;
+			dollObj.transform.position = new Vector3 (hitInfo.x, hitInfo.y , 0);
             dollObj.SetActive(isAdded);
 			dollComp.Limit_Time = 1.5f;
 			dollComp.invincible = true;

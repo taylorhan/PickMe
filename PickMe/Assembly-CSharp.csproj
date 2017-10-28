@@ -59,10 +59,12 @@
      <Compile Include="Assets\Script\Doll\FoxDoll.cs" />
      <Compile Include="Assets\Script\Doll\RabbitDoll.cs" />
      <Compile Include="Assets\Script\GameManagerScript.cs" />
+     <Compile Include="Assets\Script\InGameManager.cs" />
      <Compile Include="Assets\Script\Monster_Change_Button_Script.cs" />
      <Compile Include="Assets\Script\Object_Manager_Script.cs" />
      <Compile Include="Assets\Script\Picker_Manager_Script.cs" />
      <Compile Include="Assets\Script\Random_Move_Script.cs" />
+     <Compile Include="Assets\Script\TitleManager.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
