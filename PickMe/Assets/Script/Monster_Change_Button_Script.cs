@@ -37,6 +37,22 @@ namespace Doll
                 Debug.Log("Fox");
             }
 
+            if(GUI.RepeatButton(new Rect(200, 0, 60, 80), "EBear"))
+            {
+                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.EBear);
+                Debug.Log("EBEAR");
+            }
+            if (GUI.RepeatButton(new Rect(260, 0, 60, 80), "ERabbit"))
+            {
+                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.ERabbit);
+                Debug.Log("ERabbit");
+            }
+            if (GUI.RepeatButton(new Rect(320, 0, 60, 80), "EFox"))
+            {
+                objManagerScript.SetSelectedDollIndex((int)Object_Manager_Script.eDoll.EFox);
+                Debug.Log("EFox");
+            }
+
         }
     }
 }
