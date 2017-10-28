@@ -56,6 +56,8 @@ namespace Doll
 					floor.transform.localScale.y - obj.transform.GetChild (0).transform.localScale.y)/2, 0);
 		}
 		public void SetMove(){
+			if (Check_Super == true)
+				return;
 			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (Destiny.x, Destiny.y, Destiny.z), Time.deltaTime * Speed);
 		}
 
@@ -111,15 +113,14 @@ namespace Doll
 
             return false;
         }
-
+		public float Timer;
 		public float Limit_Time;
 		public bool Check_Super;
 
-		public void MakeSuper(bool Check, GameObject obj){
-			if (Check == true) {
-				obj.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.FreezePosition;
-			} else {
-				obj.GetComponent<Rigidbody2D> ().constraints = RigidbodyConstraints2D.None;
+		public void SetupSuper(bool start){
+			if (start) {
+				Check_Super = true;
+				Timer = 0f;
 			}
 		}
 

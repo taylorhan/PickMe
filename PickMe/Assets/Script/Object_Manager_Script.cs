@@ -129,7 +129,8 @@ namespace Doll
             bool isAdded = AddDollToFloor(dollObj.transform);
 			dollObj.transform.position = hitInfo;
             dollObj.SetActive(isAdded);
-
+			dollObj.GetComponent<Doll> ().Limit_Time = 1.5f;
+			dollObj.GetComponent<Doll> ().SetupSuper (true);
         }
 			
 

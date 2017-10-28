@@ -17,10 +17,12 @@ namespace Doll
         void Update()
         {
             CheckState();
-			if (this.GetComponent<Doll> ().Check_Super) {
-				this.GetComponent<Doll> ().MakeSuper (true, this.gameObject);
-			} else {
-				this.GetComponent<Doll> ().MakeSuper (false, this.gameObject);
+
+			if (GetComponent<Doll>().Check_Super == true) {
+				GetComponent<Doll> ().Timer += Time.deltaTime;
+				if (GetComponent<Doll> ().Timer > GetComponent<Doll> ().Limit_Time) {
+					GetComponent<Doll> ().Check_Super = false;
+				}
 			}
         }
 

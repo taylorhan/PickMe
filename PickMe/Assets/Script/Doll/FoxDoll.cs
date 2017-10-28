@@ -17,6 +17,12 @@ namespace Doll
         void Update()
         {
             CheckState();
+			if (GetComponent<Doll>().Check_Super == true) {
+				GetComponent<Doll> ().Timer += Time.deltaTime;
+				if (GetComponent<Doll> ().Timer > GetComponent<Doll> ().Limit_Time) {
+					GetComponent<Doll> ().Check_Super = false;
+				}
+			}
         }
 
         void OnTriggerEnter2D(Collider2D col)
