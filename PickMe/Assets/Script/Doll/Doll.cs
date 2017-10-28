@@ -9,7 +9,9 @@ namespace Doll
         public int index = 0;
         public int Type = 2;
 
-		public GameObject floor;
+		GameObject floor;
+        [HideInInspector]
+        public Object_Manager_Script objManagerScript;
 
         public enum eDollState
         {
@@ -34,9 +36,12 @@ namespace Doll
         }
 
         // Use this for initialization
-        void Start()
+        public void InitDoll()
         {
 			Destiny = Vector3.zero;
+
+            floor = GameManagerScript.Instance.floor;
+            objManagerScript = GameManagerScript.Instance.objManagerScript;
         }
 
         public void SetDollState(eDollState state)
@@ -96,9 +101,6 @@ namespace Doll
             }
         }
 
-
-		public Object_Manager_Script objManagerScript;
-
         public bool CheckIsDead(Object_Manager_Script.eDoll enemyType, List<GameObject> list, GameObject selfObj, GameObject enemyObj)
         {
             if (enemyObj.GetComponent<Doll>().Type == (int)enemyType)
@@ -113,12 +115,6 @@ namespace Doll
         void StartDeadAnim()
         {
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            //CheckState();
         }
     }
 }

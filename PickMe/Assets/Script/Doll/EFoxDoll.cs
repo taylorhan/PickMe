@@ -9,7 +9,7 @@ namespace Doll
         // Use this for initialization
         void Start()
         {
-
+            InitDoll();
         }
 
         // Update is called once per frame
