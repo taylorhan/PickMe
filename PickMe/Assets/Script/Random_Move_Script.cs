@@ -10,16 +10,18 @@ public class Random_Move_Script : MonoBehaviour {
 	public int Advantage;
 	public bool Check_Enemy;
 	public bool Stop_For_Fight;
+
 	// Use this for initialization
 	void Start () {
 		FloorObj = GameObject.Find ("Floor");
 		Destiny = Vector3.zero;
 		Speed = 5f;
 		Advantage = Set_Advantage (this.transform);
-		if (Advantage > 3)
+		if (Advantage > 3) {
 			Check_Enemy = true;
-		else
+		} else {
 			Check_Enemy = false;
+		}
 	}
 
 	// Update is called once per frame
@@ -27,8 +29,9 @@ public class Random_Move_Script : MonoBehaviour {
 		if (this.transform.position == Destiny
 			|| Destiny == Vector3.zero)
 			Set_Random_Destiny();
-		if(Stop_For_Fight == false)
+		if (Stop_For_Fight == false) {
 			transform.position = Vector3.MoveTowards (transform.position, new Vector3 (Destiny.x, Destiny.y, Destiny.z), Time.deltaTime * Speed);
+		}
 	}
 
 	public void Set_Random_Destiny(){
@@ -54,6 +57,11 @@ public class Random_Move_Script : MonoBehaviour {
 			Advan = 6;
 
 		return Advan;
+	}
+
+	void KillDoll()
+	{
+		
 	}
 
 	void OnTriggerEnter2D(Collider2D col){
