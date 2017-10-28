@@ -26,6 +26,8 @@ namespace Doll
 
         public void Set_Information(int index, int Type)
         {
+            Debug.Log(string.Format("Set_Information index({0}), Type({1})", index, Type));
+
             this.index = index;
             this.Type = Type;
         }
