@@ -178,7 +178,7 @@ namespace Doll
 
         void OnTriggerEnter2D(Collider2D col)
         {
-            if (IsPickUp == false)
+            if (IsPickUp == false || GameManagerScript.Instance.inGameVars.isGameOver == true)
                 return;
 
             Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
@@ -237,9 +237,20 @@ namespace Doll
 
             foreach (GameObject childObj in childList)
             {
-                GameManagerScript.Instance.AddScore(110);
-
                 int DollTypeIndex = childObj.GetComponent<Doll>().Type;
+
+                int ranScore = Random.Range(100, 1000);
+                bool isEnemy = (int)Object_Manager_Script.eDoll.EBear <= DollTypeIndex && DollTypeIndex <= (int)Object_Manager_Script.eDoll.EFox;
+                if (isEnemy == true)
+                {
+                    GameManagerScript.Instance.SubScore(Mathf.FloorToInt(ranScore * 0.5f));
+                }
+                else
+                {
+                    GameManagerScript.Instance.AddScore(ranScore);
+                }
+                
+
                 List<GameObject> list = InGameManager.Instance.objManagerScript.GetDollTypeList(DollTypeIndex);
                 InGameManager.Instance.objManagerScript.Delete_Obj(list, childObj);
             }

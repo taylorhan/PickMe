@@ -33,7 +33,7 @@ namespace Doll
             public int BestScore;
 			public float curResource;
             public float resourceChargeTime;
-            //public int difficulty;
+            public int difficulty;
 
             public bool isGameOver;
             public bool isGameStart;
@@ -47,6 +47,7 @@ namespace Doll
             inGameVars.score = 0;
             inGameVars.curResource = 0;
             inGameVars.resourceChargeTime = 0;
+            inGameVars.difficulty = 1;
             inGameVars.isGameOver = false;
             inGameVars.isGameStart = false;
         }
@@ -87,17 +88,6 @@ namespace Doll
                 return;
 
 			AddResource(Time.deltaTime / gameSetting.ResourceChargingSpeed);
-			/*
-            inGameVars.resourceChargeTime += Time.deltaTime;
-            if (inGameVars.resourceChargeTime > gameSetting.ResourceChargingSpeed)
-            {
-                inGameVars.resourceChargeTime = 0;
-                AddResource();
-
-             }
-			*/
-
-
         }
 
 		public void AddResource(float dt = 0f)
@@ -118,6 +108,10 @@ namespace Doll
         public void SubScore(int score = 1)
         {
             inGameVars.score -= score;
+            if (inGameVars.score < 0)
+            {
+                inGameVars.score = 0;
+            }
 
         }
 

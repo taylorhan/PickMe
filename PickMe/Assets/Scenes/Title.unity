@@ -307,7 +307,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -404,15 +404,17 @@ MonoBehaviour:
   gameSetting:
     GameTime: 60
     ResourceChargingSpeed: 3
-    ResourceMaxCount: 10
+    ResourceMaxCount: 3
     objectiveDollType: 0
-    DollSpeed: 10
+    DollSpeed: 5
   inGameVars:
     remainTime: 0
     elapsedTime: 0
     score: 0
+    BestScore: 0
     curResource: 0
     resourceChargeTime: 0
+    difficulty: 0
     isGameOver: 0
     isGameStart: 0
 --- !u!4 &850925899
@@ -586,7 +588,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: a4ac74edfe2d38741a3e409d67ecba71, type: 3}
+    m_Font: {fileID: 12800000, guid: fe76a6663d87be14c86544d9d1c94b0e, type: 3}
     m_FontSize: 60
     m_FontStyle: 1
     m_BestFit: 0

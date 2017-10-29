@@ -128,9 +128,6 @@ namespace Doll
 
             tDoll.parent = InGameManager.Instance.floor.transform;
 
-            GameManagerScript.Instance.SubResource();
-            InGameManager.Instance.SetResourceUI();
-
             return true;
         }
 
@@ -167,7 +164,7 @@ namespace Doll
             }
         }
 
-        public void Insert_Obj(int eDollIndex, Vector3 hitInfo)
+        public void Insert_Obj(int eDollIndex, Vector3 hitInfo, bool isEnemy = false)
         {
 			if (Dolls_obj [eDollIndex].transform.childCount <= 0) {
 				instantiatePrefabFake (Count, eDollIndex);
@@ -183,7 +180,18 @@ namespace Doll
 
             //Add To Floor & Activate GameObj
             bool isAdded = AddDollToFloor(dollObj.transform);
-			dollObj.transform.position = new Vector3 (hitInfo.x, hitInfo.y , 0);
+            if (isEnemy == true)
+            {
+                dollObj.transform.localPosition = new Vector3(hitInfo.x, hitInfo.y, 0);
+            }
+            else
+            {
+                dollObj.transform.position = new Vector3(hitInfo.x, hitInfo.y, 0);
+
+                //Set Resource
+                GameManagerScript.Instance.SubResource();
+                InGameManager.Instance.SetResourceUI();
+            }
             dollObj.SetActive(isAdded);
 			dollObj.transform.GetChild (2).transform.localScale = new Vector2 (0, 0);
 			dollObj.transform.GetChild (2).gameObject.SetActive (true);
@@ -192,30 +200,13 @@ namespace Doll
             //Set Idle State
             dollComp.SetDollState(Doll.eDollState.Idle);
         }
-		IEnumerator MakePow(Transform obj, Vector3 vec){
+        IEnumerator MakePow(Transform obj, Vector3 vec){
 			while (obj.localScale.x < vec.x) {
 				obj.localScale = new Vector3 (obj.localScale.x + 0.01f * Time.deltaTime, obj.localScale.y + 0.01f * Time.deltaTime, 0); 
 			}
 			yield return new WaitForSeconds(0.2f);
 			obj.gameObject.SetActive (false);
 		}
-			
-        /*
-        public GameObject Check_Num(List<GameObject> list, int index)
-        {
-            foreach (GameObject obj in list)
-            {
-                Doll doll = obj.GetComponent<Doll>();
-                if (doll.index == index)
-                {
-                    return obj;
-                }
-            }
-
-            return null;
-        }
-        */
-
         public void Delete_Obj(List<GameObject> list, GameObject obj)
         {
 			list.Remove (obj);
