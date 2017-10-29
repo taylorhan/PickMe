@@ -30,6 +30,7 @@ namespace Doll
             public float remainTime;
             public float elapsedTime;
             public int score;
+            public int BestScore;
 			public float curResource;
             public float resourceChargeTime;
             //public int difficulty;
@@ -104,19 +105,20 @@ namespace Doll
 			inGameVars.curResource += dt;
         }
 
-        public void SubResource()
+        public void SubResource(int resource = 1)
         {
-            inGameVars.curResource--;
+            inGameVars.curResource -= resource;
         }
 
-        public void AddScore()
+        public void AddScore(int score = 1)
         {
-            inGameVars.score++;
+            inGameVars.score += score;
         }
 
-        public void SubScore()
+        public void SubScore(int score = 1)
         {
-            inGameVars.score--;
+            inGameVars.score -= score;
+
         }
 
         // Use this for initialization

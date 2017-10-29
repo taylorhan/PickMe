@@ -29,7 +29,7 @@ namespace Doll
         private float DownPeriod = 2;
 	    private float elapsedTime = 0f;
         private bool IsPickUp = false;
-        private float UpPeriod = 0.2f;
+        private float UpPeriod = 0.5f;
 
         [System.Serializable]
         public class PickerSetting
@@ -155,7 +155,7 @@ namespace Doll
             if (pickerState != ePickerState.Move_Down)
                 return;
 
-			sound.GetComponent<SoundManager> ().pickup.Play ();
+			//sound.GetComponent<SoundManager> ().pickup.Play ();
             Vector3 curLocalPos = transform.localPosition;
 
             float posY = curLocalPos.y + ((-1) * pickerSetting.speed);
@@ -176,6 +176,21 @@ namespace Doll
             IsPickUp = true;
         }
 
+        void OnTriggerEnter2D(Collider2D col)
+        {
+            if (IsPickUp == false)
+                return;
+
+            Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
+
+            if (col.gameObject.tag == "Doll")
+            {
+                Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
+                col.gameObject.GetComponent<Doll>().SetDollState(Doll.eDollState.Pickup);
+                col.transform.parent = transform;
+            }
+        }
+
         void CheckTimeToUp()
         {
             if (pickerState != ePickerState.Pick)
@@ -185,6 +200,7 @@ namespace Doll
             if (elapsedTime > UpPeriod)
             {
                 elapsedTime = 0;
+                IsPickUp = false;
                 SetPickerState(ePickerState.Move_Up);
             }
         }
@@ -200,24 +216,33 @@ namespace Doll
             if (posY > V_Init)
             {
                 posY = V_Init;
+                ExchangeDollToPoint();
                 SetPickerState(ePickerState.Move_Horizontal);
             }
             transform.localPosition = new Vector3(curLocalPos.x, posY, curLocalPos.z);
         }
 
-	    void OnTriggerEnter2D(Collider2D col)
+        void ExchangeDollToPoint()
         {
-            if (IsPickUp == false)
-                return;
+            List<GameObject> childList = new List<GameObject>();
 
-            Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
-
-            if (col.gameObject.tag == "Doll")
+            for (int i = 0; i < transform.childCount; i++)
             {
-                Debug.Log("Picker::OnTriggerEnter2D - PickUp Flag (true)");
-                col.gameObject.GetComponent<Doll>().SetupSuper(true);
-                col.transform.parent = transform;
+                Transform tChild = transform.GetChild(i);
+                if (tChild.tag == "Doll")
+                {
+                    childList.Add(tChild.gameObject);
+                }
             }
-	    }
+
+            foreach (GameObject childObj in childList)
+            {
+                GameManagerScript.Instance.AddScore(110);
+
+                int DollTypeIndex = childObj.GetComponent<Doll>().Type;
+                List<GameObject> list = InGameManager.Instance.objManagerScript.GetDollTypeList(DollTypeIndex);
+                InGameManager.Instance.objManagerScript.Delete_Obj(list, childObj);
+            }
+        }
     }
 }

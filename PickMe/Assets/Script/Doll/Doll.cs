@@ -9,9 +9,10 @@ namespace Doll
         public int index = 0;
         public int Type = 2;
 
-        public float Timer;
+        public float IdleInvincibleTimer = 0;
+        public bool IdleInvincible = false;
+        private float IdleInvincibleLimit = 1.5f;
         public float Limit_Time;
-        public bool Check_Super;
         public bool invincible;
 
         GameObject floor;
@@ -54,14 +55,29 @@ namespace Doll
 
 		public void SetMove()
         {
-			if (Check_Super == true)
+			if (IdleInvincible == true)
 				return;
 
             float maxDistDt = GameManagerScript.Instance.gameSetting.DollSpeed;
             Vector3 targetPos = new Vector3(Destiny.x, Destiny.y, Destiny.z);
-			Debug.Log (targetPos);
 			transform.localPosition = new Vector3 (transform.localPosition.x, transform.localPosition.y, 0);
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, targetPos, maxDistDt);
+        }
+
+        public void CheckIdleState()
+        {
+            if (IdleInvincible == true)
+            {
+                IdleInvincibleTimer += Time.deltaTime;
+                if (IdleInvincibleTimer > IdleInvincibleLimit)
+                {
+                    IdleInvincibleTimer = 0;
+                    IdleInvincible = false;
+
+                    //이동 설정
+                    SetDollState(eDollState.Move);
+                }
+            }
         }
 
         public void CheckState()
@@ -71,9 +87,7 @@ namespace Doll
                 case eDollState.Idle:
                     {
                         //일정 시간 무적 적용
-                     
-                        //이동 애니메이션 설정
-                        SetDollState(eDollState.Move);
+                        IdleInvincible = true;
                     }
                     break;
                 case eDollState.Move:
@@ -93,7 +107,7 @@ namespace Doll
                     break;
                 case eDollState.Invincible:
                     {
-
+                        invincible = true;
                     }
                     break;
                 case eDollState.Pickup:
@@ -116,7 +130,10 @@ namespace Doll
             if (enemyObj.tag != "Doll")
                 return false;
 
-            if (GetComponent<Doll>().invincible == true || enemyObj.GetComponent<Doll>().invincible == true)
+            if (IdleInvincible == true || enemyObj.GetComponent<Doll>().IdleInvincible == true)
+                return false;
+                
+            if (invincible == true || enemyObj.GetComponent<Doll>().invincible == true)
                 return false;
 
             if (enemyObj.GetComponent<Doll>().Type == (int)enemyType)
@@ -127,15 +144,6 @@ namespace Doll
 
             return false;
         }
-
-        public void SetupSuper(bool start)
-        {
-			if (start)
-            {
-				Check_Super = true;
-				Timer = 0f;
-			}
-		}
 
         void StartDeadAnim()
         {

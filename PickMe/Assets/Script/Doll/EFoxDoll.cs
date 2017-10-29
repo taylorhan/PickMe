@@ -16,13 +16,7 @@ namespace Doll
         void Update()
         {
             CheckState();
-			if (Check_Super == true) {
-				Timer += Time.deltaTime;
-				if (Timer > Limit_Time) {
-					invincible = false;
-					Check_Super = false;
-				}
-			}
+            CheckIdleState();
         }
 
         void OnTriggerEnter2D(Collider2D col)

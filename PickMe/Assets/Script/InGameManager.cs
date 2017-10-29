@@ -44,6 +44,7 @@ namespace Doll
         {
             public Canvas canvas_Result;
             public Text text_ResultScore;
+            public Text text_ResultBestScore;
         }
         public ResultGameUI resultGameUI;
 
@@ -149,6 +150,19 @@ namespace Doll
 
         }
 
+        public void SetScoreUI()
+        {
+            int Score = GameManagerScript.Instance.inGameVars.score;
+            inGameUI.text_Score.text = Score.ToString("D8");
+            resultGameUI.text_ResultScore.text = Score.ToString("D8");
+
+            if (Score > GameManagerScript.Instance.inGameVars.BestScore)
+            {
+                GameManagerScript.Instance.inGameVars.BestScore = Score;
+            }
+            resultGameUI.text_ResultBestScore.text = GameManagerScript.Instance.inGameVars.BestScore.ToString("D8");
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -166,6 +180,7 @@ namespace Doll
 
             SetRemainTime();
             SetResourceUI();
+            SetScoreUI();
         }
     }
 }

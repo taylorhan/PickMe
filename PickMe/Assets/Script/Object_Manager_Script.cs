@@ -130,6 +130,39 @@ namespace Doll
             return true;
         }
 
+        public List<GameObject> GetDollTypeList(int eDollIndex)
+        {
+            switch (eDollIndex)
+            {
+                case (int)eDoll.Bear:
+                    {
+                        return BearList;
+                    }
+                case (int)eDoll.Rabbit:
+                    {
+                        return RabbitList;
+                    }
+                case (int)eDoll.Fox:
+                    {
+                        return FoxList;
+                    }
+                case (int)eDoll.EBear:
+                    {
+                        return EBearList;
+                    }
+                case (int)eDoll.ERabbit:
+                    {
+                        return ERabbitList;
+                    }
+                case (int)eDoll.EFox:
+                    {
+                        return EFoxList;
+                    }
+                default:
+                    return BearList;
+            }
+        }
+
         public void Insert_Obj(int eDollIndex, Vector3 hitInfo)
         {
 			if (Dolls_obj [eDollIndex].transform.childCount <= 0) {
@@ -139,16 +172,20 @@ namespace Doll
             GameObject dollObj = Dolls_obj[eDollIndex].transform.GetChild(0).gameObject as GameObject;
             Doll dollComp = dollObj.GetComponent<Doll>();
             dollComp.Set_Information(arrDollCount[eDollIndex]++, eDollIndex);
-            BearList.Add(dollObj);
+
+            //Add To List
+            List<GameObject> list = GetDollTypeList(eDollIndex);
+            list.Add(dollObj);
+
+            //Add To Floor & Activate GameObj
             bool isAdded = AddDollToFloor(dollObj.transform);
 			dollObj.transform.position = new Vector3 (hitInfo.x, hitInfo.y , 0);
             dollObj.SetActive(isAdded);
-			dollComp.Limit_Time = 1.5f;
-			dollComp.invincible = true;
-			dollComp.SetupSuper (true);
+
+            //Set Idle State
+            dollComp.SetDollState(Doll.eDollState.Idle);
         }
 			
-
         /*
         public GameObject Check_Num(List<GameObject> list, int index)
         {
@@ -167,16 +204,18 @@ namespace Doll
 
         public void Delete_Obj(List<GameObject> list, GameObject obj)
         {
-			
-				list.Remove (obj);
+			list.Remove (obj);
 
-				Transform tParent = Dolls_obj [obj.GetComponent<Doll> ().Type].transform;
-				if (tParent.childCount > 10) {
-					Destroy (obj);
-				} else {
-					obj.transform.parent = tParent;
-					obj.SetActive (false);
-				}
+			Transform tParent = Dolls_obj [obj.GetComponent<Doll> ().Type].transform;
+			if (tParent.childCount > 10)
+            {
+				Destroy (obj);
+			}
+            else
+            {
+				obj.transform.parent = tParent;
+				obj.SetActive (false);
+			}
         }
     }
 }
