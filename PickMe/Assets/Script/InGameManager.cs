@@ -83,6 +83,7 @@ namespace Doll
 			buttonEffect.Img_Bear.sprite = Resources.Load<Sprite> ("Button_bear_using") as Sprite;
 			buttonEffect.Img_Rabbit.sprite = Resources.Load<Sprite> ("Button_rabbit") as Sprite;
 			buttonEffect.Img_Fox.sprite = Resources.Load<Sprite> ("Button_fox") as Sprite;
+			buttonEffect.Img_Bear.GetComponent<AudioSource> ().Play ();
         }
 
         public void OnClick_SelectRabbit()
@@ -95,6 +96,7 @@ namespace Doll
 			buttonEffect.Img_Bear.sprite = Resources.Load<Sprite> ("Button_bear") as Sprite;
 			buttonEffect.Img_Rabbit.sprite = Resources.Load<Sprite> ("Button_rabbit_using") as Sprite;
 			buttonEffect.Img_Fox.sprite = Resources.Load<Sprite> ("Button_fox") as Sprite;
+			buttonEffect.Img_Rabbit.GetComponent<AudioSource> ().Play ();
         }
 
         public void OnClick_SelectFox()
@@ -107,6 +109,7 @@ namespace Doll
 			buttonEffect.Img_Bear.sprite = Resources.Load<Sprite> ("Button_bear") as Sprite;
 			buttonEffect.Img_Rabbit.sprite = Resources.Load<Sprite> ("Button_rabbit") as Sprite;
 			buttonEffect.Img_Fox.sprite = Resources.Load<Sprite> ("Button_fox_using") as Sprite;
+			buttonEffect.Img_Fox.GetComponent<AudioSource> ().Play ();
         }
 
         public Vector3 Set_Random_Destiny()
@@ -143,6 +146,7 @@ namespace Doll
             float perResource = curResource / maxResource;
 
             inGameUI.slider_Resource.value = perResource;
+
         }
 
         // Update is called once per frame

@@ -6,6 +6,9 @@ namespace Doll
 {
     public class Picker_Manager_Script : MonoBehaviour
     {
+
+		public GameObject sound;
+
         public enum ePickerState
         {
             Move_Horizontal = 0,
@@ -152,6 +155,7 @@ namespace Doll
             if (pickerState != ePickerState.Move_Down)
                 return;
 
+			sound.GetComponent<SoundManager> ().pickup.Play ();
             Vector3 curLocalPos = transform.localPosition;
 
             float posY = curLocalPos.y + ((-1) * pickerSetting.speed);
