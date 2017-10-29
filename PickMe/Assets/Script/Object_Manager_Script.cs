@@ -68,6 +68,10 @@ namespace Doll
 					GameObject newObj = Instantiate (DollsPrefabArray [i], Vector2.zero, Quaternion.identity);
 					newObj.GetComponent<Doll> ().Set_Information (0, i);
 					newObj.SetActive (false);
+					newObj.transform.GetChild (0).gameObject.SetActive(true);
+					newObj.transform.GetChild (1).gameObject.SetActive(true);
+					newObj.transform.GetChild (2).gameObject.SetActive(false);
+					newObj.transform.GetChild (3).gameObject.SetActive(false);
 					newObj.transform.parent = Dolls_obj [newObj.GetComponent<Doll> ().Type].transform;
 				}
 			}
@@ -181,10 +185,20 @@ namespace Doll
             bool isAdded = AddDollToFloor(dollObj.transform);
 			dollObj.transform.position = new Vector3 (hitInfo.x, hitInfo.y , 0);
             dollObj.SetActive(isAdded);
+			dollObj.transform.GetChild (2).transform.localScale = new Vector2 (0, 0);
+			dollObj.transform.GetChild (2).gameObject.SetActive (true);
+			StartCoroutine (MakePow (dollObj.transform.GetChild(2).transform, new Vector3 (8,8,0)));
 
             //Set Idle State
             dollComp.SetDollState(Doll.eDollState.Idle);
         }
+		IEnumerator MakePow(Transform obj, Vector3 vec){
+			while (obj.localScale.x < vec.x) {
+				obj.localScale = new Vector3 (obj.localScale.x + 0.01f * Time.deltaTime, obj.localScale.y + 0.01f * Time.deltaTime, 0); 
+			}
+			yield return new WaitForSeconds(0.2f);
+			obj.gameObject.SetActive (false);
+		}
 			
         /*
         public GameObject Check_Num(List<GameObject> list, int index)
@@ -207,6 +221,7 @@ namespace Doll
 			list.Remove (obj);
 
 			Transform tParent = Dolls_obj [obj.GetComponent<Doll> ().Type].transform;
+
 			if (tParent.childCount > 10)
             {
 				Destroy (obj);

@@ -36,6 +36,7 @@ namespace Doll
 			public Image Img_Bear;
 			public Image Img_Rabbit;
 			public Image Img_Fox;
+
         }
         public ButtonEffect buttonEffect;
 

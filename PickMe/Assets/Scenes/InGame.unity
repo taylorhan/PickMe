@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311992, g: 0.38074034, b: 0.35872713, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311918, g: 0.3807398, b: 0.35872716, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2387,6 +2387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b4f2f805a08ff4d93c6753a4b0ff70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  objManagerScript: {fileID: 0}
 --- !u!4 &1666453753
 Transform:
   m_ObjectHideFlags: 0
@@ -2952,7 +2953,7 @@ Prefab:
     - target: {fileID: 212234200251517766, guid: aa9d6260290d8d746ae95b21e73bc92c,
         type: 2}
       propertyPath: m_SortingOrder
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4442147149117660, guid: aa9d6260290d8d746ae95b21e73bc92c, type: 2}
       propertyPath: m_LocalScale.x
@@ -3310,7 +3311,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
