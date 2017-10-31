@@ -243,7 +243,7 @@ namespace Doll
                 bool isEnemy = (int)Object_Manager_Script.eDoll.EBear <= DollTypeIndex && DollTypeIndex <= (int)Object_Manager_Script.eDoll.EFox;
                 if (isEnemy == true)
                 {
-                    GameManagerScript.Instance.SubScore(Mathf.FloorToInt(ranScore * 0.5f));
+                    GameManagerScript.Instance.SubScore(Mathf.FloorToInt(ranScore * 0.2f));
                 }
                 else
                 {

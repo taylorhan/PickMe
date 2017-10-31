@@ -44,7 +44,7 @@ namespace Doll
 
         void SetEnemyCoolTime()
         {
-            enemyCreateCoolTime = 0.5f + GameManagerScript.Instance.gameSetting.ResourceChargingSpeed;
+            enemyCreateCoolTime = 1f * GameManagerScript.Instance.gameSetting.ResourceChargingSpeed;
         }
 
         void CreateEnemyChar()
@@ -53,7 +53,7 @@ namespace Doll
             if (elapsedTime > enemyCreateCoolTime)
             {
                 elapsedTime = 0;
-                int eDollIndex = Random.Range((int)Object_Manager_Script.eDoll.EBear, (int)Object_Manager_Script.eDoll.EFox);
+                int eDollIndex = Random.Range((int)Object_Manager_Script.eDoll.EBear, (int)Object_Manager_Script.eDoll.Max);
                 Vector3 ranPos = InGameManager.Instance.Set_Random_Destiny();
                 InGameManager.Instance.objManagerScript.Insert_Obj(eDollIndex, ranPos, true);
             }
@@ -84,7 +84,6 @@ namespace Doll
                 SetEnemyCoolTime();
             }
 
-            //GameManagerScript.Instance.gameSetting.DollSpeed = GameManagerScript.Instance.inGameVars.difficulty * 3;
             GameManagerScript.Instance.gameSetting.ResourceChargingSpeed = 3 / GameManagerScript.Instance.inGameVars.difficulty;
         }
     }
